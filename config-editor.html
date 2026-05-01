@@ -38,6 +38,101 @@
                 <button onclick="copyResult()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded text-sm font-medium transition-colors shadow-sm">
                     <i class="fa-regular fa-copy mr-1.5"></i>复制配置
                 </button>
+                <button onclick="pushAndRun()" id="push-btn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded text-sm font-medium transition-colors shadow-sm">
+    <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i>推送并运行
+</button>
+
+<script>
+// ===== 推送和运行功能 =====
+const GITHUB_TOKEN = ''; // ⚠️ 需要你填入 GitHub Personal Access Token
+const REPO_OWNER = 'liuzifan666-maker';
+const REPO_NAME = 'niunanfan';
+
+async function pushAndRun() {
+    const token = GITHUB_TOKEN;
+    if (!token) {
+        alert('请先在代码中填入你的 GitHub Personal Access Token');
+        return;
+    }
+    
+    const btn = document.getElementById('push-btn');
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i>推送中...';
+    btn.disabled = true;
+    
+    try {
+        // 获取当前活动标签页的编辑器内容和文件路径
+        const activeTab = document.querySelector('.tab-button.active');
+        let editor, filePath;
+        if (activeTab.id === 'tab-config') {
+            editor = document.getElementById('yaml-editor');
+            filePath = 'config/config.yaml';
+        } else if (activeTab.id === 'tab-frequency') {
+            editor = document.getElementById('frequency-editor');
+            filePath = 'config/frequency_words.txt';
+        } else if (activeTab.id === 'tab-timeline') {
+            editor = document.getElementById('timeline-editor');
+            filePath = 'config/timeline.yaml';
+        }
+        
+        const content = editor.value;
+        const base64Content = btoa(unescape(encodeURIComponent(content)));
+        
+        // 获取文件当前 SHA（GitHub API 要求）
+        const getUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`;
+        const getRes = await fetch(getUrl, {
+            headers: { 'Authorization': `token ${token}` }
+        });
+        const getData = await getRes.json();
+        const sha = getData.sha;
+        
+        // 推送文件
+        const putUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`;
+        const putRes = await fetch(putUrl, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: 'Update config from web editor',
+                content: base64Content,
+                sha: sha
+            })
+        });
+        
+        if (!putRes.ok) {
+            const err = await putRes.json();
+            alert('推送失败：' + err.message);
+            btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-1.5"></i>推送并运行';
+            btn.disabled = false;
+            return;
+        }
+        
+        // 触发 Actions 运行
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i>触发运行中...';
+        const dispatchUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/actions/workflows/crawler.yml/dispatches`;
+        const dispatchRes = await fetch(dispatchUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ref: 'master' })  // 或 'main'
+        });
+        
+        if (dispatchRes.ok) {
+            alert('配置已推送并触发 Actions 运行！3-5 分钟后检查飞书推送。');
+        } else {
+            alert('配置已推送，但触发 Actions 失败。请手动到 Actions 页面运行。');
+        }
+    } catch (e) {
+        alert('操作失败：' + e.message);
+    }
+    
+    btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-1.5"></i>推送并运行';
+    btn.disabled = false;
+}
+</script>
             </div>
         </div>
     </nav>
