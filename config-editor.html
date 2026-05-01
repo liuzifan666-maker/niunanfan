@@ -44,12 +44,12 @@
 
 <script>
 // ===== 推送和运行功能 =====
-const GITHUB_TOKEN = ''; // ⚠️ 需要你填入 GitHub Personal Access Token
+let GITHUB_TOKEN = 'ghp_0MA9zqnxJSA1CxF1EIIQDQckTnXMUK3t4oqq'; // ⚠️ 需要你填入 GitHub Personal Access Token
 const REPO_OWNER = 'liuzifan666-maker';
 const REPO_NAME = 'niunanfan';
 
 async function pushAndRun() {
-    const token = GITHUB_TOKEN = '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'
+    const token = GITHUB_TOKEN;
     if (!token) {
         alert('请先在代码中填入你的 GitHub Personal Access Token');
         return;
