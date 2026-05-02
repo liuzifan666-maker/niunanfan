@@ -90,9 +90,9 @@ async function pushAndRun() {
         const putRes = await fetch(putUrl, {
             method: 'PUT',
             headers: {
-                'Authorization': `token ${token}`,
-                'Content-Type': 'application/json',
-            },
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json',
+}
             body: JSON.stringify({
                 message: 'Update config from web editor',
                 content: base64Content,
@@ -114,9 +114,9 @@ async function pushAndRun() {
         const dispatchRes = await fetch(dispatchUrl, {
             method: 'POST',
             headers: {
-                'Authorization': `token ${token}`,
-                'Content-Type': 'application/json',
-            },
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json',
+}
             body: JSON.stringify({ ref: 'master' })  // 或 'main'
         });
         
