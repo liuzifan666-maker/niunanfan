@@ -1434,7 +1434,7 @@ def render_html_content(
 
                 if link_url:
                     escaped_url = html_escape(link_url)
-                    stats_html += f'<a href="http://43.103.52.255:8080/{escaped_url}" target="_blank" class="news-link">{escaped_title}</a>'
+                    stats_html += f'<a href="https://translate.google.com/translate?hl=zh-CN&sl=auto&u={escaped_url}" target="_blank" class="news-link">{escaped_title}</a>'
                 else:
                     stats_html += escaped_title
 
@@ -1501,7 +1501,7 @@ def render_html_content(
 
                 if link_url:
                     escaped_url = html_escape(link_url)
-                    new_titles_html += f'<a href="http://43.103.52.255:8080/{escaped_url}" target="_blank" class="news-link">{escaped_title}</a>'
+                    new_titles_html += f'<a href="https://translate.google.com/translate?hl=zh-CN&sl=auto&u={escaped_url}" target="_blank" class="news-link">{escaped_title}</a>'
                 else:
                     new_titles_html += escaped_title
 
@@ -1602,7 +1602,7 @@ def render_html_content(
                 escaped_title = html_escape(item_title)
                 if url:
                     escaped_url = html_escape(url)
-                    rss_html += f'<a href="http://43.103.52.255:8080/{escaped_url}" target="_blank" class="rss-link">{escaped_title}</a>'
+                    rss_html += f'<a href="https://translate.google.com/translate?hl=zh-CN&sl=auto&u={escaped_url}" target="_blank" class="rss-link">{escaped_title}</a>'
                 else:
                     rss_html += escaped_title
 
@@ -1791,7 +1791,7 @@ def render_html_content(
                 escaped_title = html_escape(title)
                 if url:
                     escaped_url = html_escape(url)
-                    standalone_html += f'<a href="http://43.103.52.255:8080/{escaped_url}" target="_blank" class="news-link">{escaped_title}</a>'
+                    standalone_html += f'<a href="https://translate.google.com/translate?hl=zh-CN&sl=auto&u={escaped_url}" target="_blank" class="news-link">{escaped_title}</a>'
                 else:
                     standalone_html += escaped_title
 
@@ -1855,7 +1855,7 @@ def render_html_content(
                 escaped_title = html_escape(title)
                 if url:
                     escaped_url = html_escape(url)
-                    standalone_html += f'<a href="http://43.103.52.255:8080/{escaped_url}" target="_blank" class="news-link">{escaped_title}</a>'
+                    standalone_html += f'<a href="https://translate.google.com/translate?hl=zh-CN&sl=auto&u={escaped_url}" target="_blank" class="news-link">{escaped_title}</a>'
                 else:
                     standalone_html += escaped_title
 
