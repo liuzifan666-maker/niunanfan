@@ -61,8 +61,6 @@ platforms:
       name: "澎湃新闻"
     - id: "cls-hot"
       name: "财联社热门"
-    - id: "zhihu"
-      name: "知乎"
 
 
 
@@ -103,15 +101,43 @@ rss:
       name: "Hacker News"
       url: "https://hnrss.org/frontpage"
 
-    - id: "ruanyifeng"
-      name: "阮一峰的网络日志"
-      url: "http://www.ruanyifeng.com/blog/atom.xml"
-      enabled: false                  # 禁用
-      # max_age_days: 3               # 示例：推送 3 天内的文章（更新较慢的博客）
-     
-    - id: "yahoo-finance"
-      name: "雅虎财经"
-      url: "https://finance.yahoo.com/news/rssindex"
+    - id: "us-state-dept"
+      name: "美国国务院"
+      url: "https://www.state.gov/rss-feeds/all/feed/"
+      max_age_days: 1
+
+    - id: "un-news"
+      name: "联合国新闻"
+      url: "https://news.un.org/feed/subject/en/top-stories"
+      max_age_days: 1
+
+    - id: "bbc-world"
+      name: "BBC World"
+      url: "https://feeds.bbci.co.uk/news/world/rss.xml"
+      max_age_days: 1
+
+    - id: "the-guardian"
+      name: "卫报 国际"
+      url: "https://www.theguardian.com/world/rss"
+      max_age_days: 1
+
+    - id: "bloomberg"
+      name: "彭博社"
+      url: "https://feeds.bloomberg.com/markets/news.rss"
+      max_age_days: 1
+
+    - id: "nhk-world"
+      name: "日本 NHK"
+      url: "https://www3.nhk.or.jp/rss/news/cat0.xml"
+      max_age_days: 1
+
+
+
+
+
+
+
+
 
     # 自定义源示例
     # - id: "custom-feed"
@@ -139,7 +165,7 @@ rss:
 report:
   mode: "current"                     # daily | current | incremental（schedule 开启时作为默认值）
 
-  display_mode: "keyword"             # 分组维度: keyword | platform
+  display_mode: "platform"             # 分组维度: keyword | platform
                                       # keyword: 按关键词分组显示（默认）
                                       # platform: 按平台/来源分组显示
 
@@ -264,8 +290,8 @@ display:
   #   - AI 分析：由 ai_analysis.include_standalone 开关控制，将完整数据送入 AI 做深度分析
   # 两者共享此处的平台/RSS 配置，但开关互相独立（可只开 AI 分析、不推送展示）
   standalone:
-    platforms: ["zhihu", "wallstreetcn-hot"]     # 热榜平台 ID 列表（如 ["zhihu", "weibo"]）
-    rss_feeds: []                     # RSS 源 ID 列表（如 ["hacker-news"]）
+    platforms: ["wallstreetcn-hot","cls-hot","thepaper"] # 热榜平台 ID 列表（如 ["zhihu", "weibo"]）
+    rss_feeds: ["hacker-news","us-state-dept","un-news","bbc-world","the-guardian","bloomberg","nhk-world"] # RSS 源 ID 列表（如 ["hacker-news"]）
     max_items: 20                     # 每个源最多展示条数（0=不限制）
 
 
@@ -493,7 +519,7 @@ ai_analysis:
                                       # GitHub Action 部署默认推送约 20 次（每小时推送一次）， 约 0.1 元/天
                                       # Docker 部署默认推送 48 次(每半小时推送一次)， 约 0.2 元/天
 
-  include_rss: false                # 是否包含 RSS 内容进行分析
+  include_rss: true                # 是否包含 RSS 内容进行分析
   
   include_standalone: true          # 是否将独立展示区数据纳入 AI 分析
                                     # 数据源列表来自 display.standalone.platforms / display.standalone.rss_feeds
